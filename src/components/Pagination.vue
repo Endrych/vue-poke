@@ -8,8 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from "vue";
-
 defineProps<{
     isFirst: boolean
     isLast: boolean

@@ -5,6 +5,12 @@
         <PokemonImage :id="pokemon.id" />
         <div><b>Weight:</b> {{ pokemon.weight }}</div>
         <div><b>Height:</b> {{ pokemon.height }}</div>
+        <div class="sprites">
+            <div v-for="sprite in pokemon.sprites">
+                <img :src="sprite" />
+            </div>
+        </div>
+
     </div>
     <Loading v-else />
 </template>
@@ -66,5 +72,11 @@ a {
     &:hover {
         background-color: #e9ecef;
     }
+}
+
+.sprites {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 </style>

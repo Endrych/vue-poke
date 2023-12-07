@@ -1,7 +1,7 @@
 <template>
     <div v-if="loaded">
         <div class="poke-list">
-            <div class="poke-list-card" v-for="pokemon in pokemons" :key="pokemon.index">
+            <div class="poke-list-card" v-for="pokemon in pokemons" :key="String(pokemon.index)">
                 <PokeListCard :name="pokemon.name" :index="pokemon.index" />
             </div>
         </div>
@@ -11,19 +11,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ComputedRef } from 'vue';
 import { useStore } from 'vuex'
 
 import PokeListCard from '../components/PokeListCard.vue';
 import Pagination from '../components/Pagination.vue';
 import Loading from '../components/Loading.vue';
+import { PokemonListItem } from '../models/pokemon-list-item.model';
 
 const store = useStore();
 
-const isFirstPage = computed(() => store.getters.isFirstPage)
-const isLastPage = computed(() => store.getters.isLastPage)
-const pokemons = computed(() => store.getters.pokemons)
-const loaded = computed(() => store.getters.loaded)
+const isFirstPage: ComputedRef<boolean> = computed(() => store.getters.isFirstPage)
+const isLastPage: ComputedRef<boolean> = computed(() => store.getters.isLastPage)
+const pokemons: ComputedRef<PokemonListItem[]> = computed(() => store.getters.pokemons)
+const loaded: ComputedRef<boolean> = computed(() => store.getters.loaded)
 
 function previous() {
     store.dispatch('previousItems')

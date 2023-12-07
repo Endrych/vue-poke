@@ -1,15 +1,16 @@
 <template>
     <div @click="openDetail" class="card">
-        <img :src="url">
+        <PokemonImage :id="index" />
         <h2>{{ name }}</h2>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { getPokemonImage } from "../utils";
 import { ROUTE_PATH } from "../constants";
+
+import PokemonImage from "../components/PokemonImage.vue"
+
 
 const router = useRouter()
 const props = defineProps<{
@@ -17,12 +18,9 @@ const props = defineProps<{
     index: Number
 }>();
 
-const url = computed(() => {
-    return getPokemonImage(props.index);
-})
 
 function openDetail() {
-    router.push(ROUTE_PATH.POKE_DETAIL);
+    router.push(ROUTE_PATH.POKE_DETAIL.replace(':id', String(props.index)));
 }
 
 </script>
@@ -30,17 +28,6 @@ function openDetail() {
 <style scoped>
 .card {
     cursor: pointer;
-    display: inline-block;
     min-width: 215px;
-    background: #fff;
-    border-radius: 15px;
-    -webkit-box-shadow: 7px 1px 15px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 7px 1px 15px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 7px 1px 15px 0px rgba(0, 0, 0, 0.75);
-}
-
-h2 {
-    color: #000;
-    text-transform: capitalize;
 }
 </style>

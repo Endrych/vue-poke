@@ -1,37 +1,41 @@
 <template>
-    <div class="poke-list">
-        <div class="poke-list-card" v-for="pokemon in pokemons" :key="pokemon.index">
-            <PokeListCard :name="pokemon.name" :index="pokemon.index" />
+    <div v-if="loaded">
+        <div class="poke-list">
+            <div class="poke-list-card" v-for="pokemon in pokemons" :key="pokemon.index">
+                <PokeListCard :name="pokemon.name" :index="pokemon.index" />
+            </div>
         </div>
+        <Pagination @previous="previous" @next="next" :is-first="isFirstPage" :is-last="isLastPage" />
     </div>
-    <Pagination @previous="previous" @next="next" :is-first="isFirst" :is-last="isLast" />
+    <Loading v-else />
 </template>
 
 <script setup lang="ts">
+import { onMounted, computed } from 'vue';
+import { useStore } from 'vuex'
+
 import PokeListCard from '../components/PokeListCard.vue';
 import Pagination from '../components/Pagination.vue';
-import data from '../mockData';
-import { ref } from 'vue';
-import { getIndexFromPokemonUrl } from '../utils';
+import Loading from '../components/Loading.vue';
 
-const { pokemonResponse } = data;
+const store = useStore();
 
-const pokemons = ref(pokemonResponse.results.map((r => ({
-    name: r.name,
-    url: r.url,
-    index: parseInt(`${getIndexFromPokemonUrl(r.url)}`)
-}))));
-const isFirst = ref(pokemonResponse.previous === null);
-const isLast = ref(pokemonResponse.next === null);
-
+const isFirstPage = computed(() => store.getters.isFirstPage)
+const isLastPage = computed(() => store.getters.isLastPage)
+const pokemons = computed(() => store.getters.pokemons)
+const loaded = computed(() => store.getters.loaded)
 
 function previous() {
-    console.log('previous');
+    store.dispatch('previousItems')
 }
 
 function next() {
-    console.log('next');
+    store.dispatch('nextItems')
 }
+
+onMounted(function () {
+    store.dispatch('loadItems');
+})
 </script>
 
 <style scoped>

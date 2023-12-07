@@ -49,15 +49,15 @@ onMounted(function () {
 <style scoped>
 .card {
     width: 90%;
-    margin-top: 25px;
-
 }
 
 h1 {
     text-transform: capitalize;
+    margin-bottom: 25px;
 }
 
 a {
+    margin-bottom: 45px;
     width: 100px;
     user-select: none;
     display: block;

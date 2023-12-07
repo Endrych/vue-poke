@@ -1,6 +1,6 @@
 export interface State {
 	loaded: boolean;
-	items: {};
+	items: [];
 	previousUrl: string | null;
 	nextUrl: string | null;
 }

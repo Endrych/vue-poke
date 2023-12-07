@@ -1,6 +1,8 @@
+import { PokemonListItem } from "./pokemon-list-item.model";
+
 export interface State {
 	loaded: boolean;
-	items: [];
+	pokemons: Array<PokemonListItem>;
 	previousUrl: string | null;
 	nextUrl: string | null;
 }

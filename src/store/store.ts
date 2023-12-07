@@ -1,8 +1,9 @@
 import { createStore, Store } from "vuex";
-import { getIndexFromPokemonUrl } from "../utils";
+import { mapPokemonsResult } from "../utils";
 import { InjectionKey } from "vue";
 import { State } from "../models/state.model";
 import RestClient from "../api/RestClient";
+import { PokemonResult } from "../models/pokemon-result.model";
 
 // define injection key
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -12,7 +13,7 @@ const client = new RestClient();
 const store = createStore<State>({
 	state: {
 		loaded: false,
-		items: [],
+		pokemons: [],
 		previousUrl: null,
 		nextUrl: null,
 	},
@@ -20,14 +21,10 @@ const store = createStore<State>({
 		setLoaded(state, payload) {
 			state.loaded = payload;
 		},
-		setResultData(state, payload) {
+		setResultData(state, payload: PokemonResult) {
 			state.previousUrl = payload.previous;
 			state.nextUrl = payload.next;
-			state.items = payload.results.map((r: any) => ({
-				name: r.name,
-				url: r.url,
-				index: getIndexFromPokemonUrl(r.url),
-			}));
+			state.pokemons = mapPokemonsResult(payload.results);
 			state.loaded = true;
 		},
 	},
@@ -57,7 +54,7 @@ const store = createStore<State>({
 			return state.loaded;
 		},
 		pokemons(state) {
-			return state.items;
+			return state.pokemons;
 		},
 		isFirstPage(state) {
 			return state.previousUrl === null;

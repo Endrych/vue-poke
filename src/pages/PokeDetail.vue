@@ -1,27 +1,31 @@
 <template>
     <a @click="goBack" href="#">Go Back</a>
     <div class="card" v-if="pokemon">
-        <h2>{{ pokemon.name }}</h2>
+        <h1>{{ pokemon.name }}</h1>
         <PokemonImage :id="pokemon.id" />
         <div><b>Weight:</b> {{ pokemon.weight }}</div>
         <div><b>Height:</b> {{ pokemon.height }}</div>
+        <SpecialitiesTable name="Abilities" :items="pokemon.abilities" />
+        <SpecialitiesTable name="Moves" :items="pokemon.moves" />
         <div class="sprites">
             <div v-for="sprite in pokemon.sprites">
                 <img :src="sprite" />
             </div>
         </div>
-
     </div>
+
     <Loading v-else />
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from "vue";
+import { onMounted, computed, ComputedRef } from "vue";
 import { useRouter } from "vue-router"
 import { useStore } from "vuex"
 
 import PokemonImage from "../components/PokemonImage.vue"
 import Loading from '../components/Loading.vue';
+import { Pokemon } from "../models/pokemon.model";
+import SpecialitiesTable from "../components/SpecialitiesTable.vue";
 
 const { id } = defineProps<{
     id: string
@@ -30,7 +34,7 @@ const { id } = defineProps<{
 const store = useStore()
 const router = useRouter()
 
-const pokemon = computed(() => store.getters.pokemon)
+const pokemon: ComputedRef<Pokemon> = computed(() => store.getters.pokemon)
 
 function goBack() {
     router.back()
@@ -49,7 +53,7 @@ onMounted(function () {
 
 }
 
-h2 {
+h1 {
     text-transform: capitalize;
 }
 

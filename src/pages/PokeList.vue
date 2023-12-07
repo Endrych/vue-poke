@@ -38,6 +38,8 @@ function next() {
 .poke-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 25px;
 }
 
 .poke-list-card {

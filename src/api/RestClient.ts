@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LIST_LIMIT } from "../constants";
 import { REST_API } from "../env.json";
-import { PokemonsResult } from "../models/pokemon-result.model";
+import { PokemonsResult } from "../models/pokemons-result.model";
 import { Pokemon } from "../models/pokemon.model";
 
 export default class {

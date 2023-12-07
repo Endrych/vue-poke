@@ -3,9 +3,7 @@ export interface Pokemon {
 	height: number;
 	weight: number;
 	name: string;
-	species: {};
 	abilities: [];
 	moves: [];
-	sprites: [];
-	stats: [];
+	sprites: Array<string>;
 }

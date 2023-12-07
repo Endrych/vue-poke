@@ -1,6 +1,7 @@
 import { POKEMON_IMAGE_URL_BASE } from "./constants";
 import { PokemonListItem } from "./models/pokemon-list-item.model";
-import { PokemonResults } from "./models/pokemon-result.model";
+import { PokemonsResults } from "./models/pokemon-result.model";
+import { Pokemon } from "./models/pokemon.model";
 
 export const getPokemonImage = (index: Number): string => {
 	return `${POKEMON_IMAGE_URL_BASE}/${index}.png`;
@@ -12,10 +13,16 @@ export const getIndexFromPokemonUrl = (url: string): Number => {
 };
 
 export const mapPokemonsResult = (
-	results: PokemonResults
+	results: PokemonsResults
 ): Array<PokemonListItem> =>
 	results.map((r) => ({
 		name: r.name,
 		url: r.url,
 		index: getIndexFromPokemonUrl(r.url),
 	}));
+
+export const mapPokemonResult = (result: Pokemon): Pokemon => {
+	return {
+		...result,
+	};
+};

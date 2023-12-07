@@ -1,12 +1,9 @@
 import { createStore, Store } from "vuex";
 import { mapPokemonsResult } from "../utils";
-import { InjectionKey } from "vue";
 import { State } from "../models/state.model";
 import RestClient from "../api/RestClient";
-import { PokemonResult } from "../models/pokemon-result.model";
-
-// define injection key
-export const key: InjectionKey<Store<State>> = Symbol();
+import { PokemonsResult } from "../models/pokemon-result.model";
+import { Pokemon } from "../models/pokemon.model";
 
 const client = new RestClient();
 
@@ -16,19 +13,32 @@ const store = createStore<State>({
 		pokemons: [],
 		previousUrl: null,
 		nextUrl: null,
+		pokemon: null,
 	},
 	mutations: {
+		clearPokemon(state) {
+			state.pokemon = null;
+		},
 		setLoaded(state, payload) {
 			state.loaded = payload;
 		},
-		setResultData(state, payload: PokemonResult) {
+		setResultData(state, payload: PokemonsResult) {
 			state.previousUrl = payload.previous;
 			state.nextUrl = payload.next;
 			state.pokemons = mapPokemonsResult(payload.results);
 			state.loaded = true;
 		},
+		setPokemon(state, payload: Pokemon) {
+			state.pokemon = payload;
+		},
 	},
 	actions: {
+		async loadPokemon({ commit }, id: number) {
+			commit("clearPokemon");
+			const result = await client.getPokemon(id);
+			console.log(result);
+			commit("setPokemon", result);
+		},
 		async loadItems({ commit }) {
 			commit("setLoaded", false);
 			const result = await client.getPokemons(null);
@@ -61,6 +71,9 @@ const store = createStore<State>({
 		},
 		isLastPage(state) {
 			return state.nextUrl === null;
+		},
+		pokemon(state) {
+			return state.pokemon;
 		},
 	},
 });

@@ -1,11 +1,11 @@
-export type PokemonResults = Array<{
+export type PokemonsResults = Array<{
 	name: string;
 	url: string;
 }>;
 
-export interface PokemonResult {
+export interface PokemonsResult {
 	count: Number;
 	next: string | null;
 	previous: string | null;
-	results: PokemonResults;
+	results: PokemonsResults;
 }

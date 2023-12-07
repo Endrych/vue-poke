@@ -37,6 +37,7 @@ ul {
 }
 
 a {
+    user-select: none;
     display: block;
     border-radius: 0.25rem;
     padding: 0.5rem 0.75rem;

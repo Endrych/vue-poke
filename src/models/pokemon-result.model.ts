@@ -3,7 +3,7 @@ export interface PokemonResult {
 	height: number;
 	weight: number;
 	name: string;
-	abilities: [];
-	moves: [];
+	abilities: Array<{ ability: { name: string; url: string } }>;
+	moves: Array<{ move: { name: string; url: string } }>;
 	sprites: [];
 }

@@ -1,9 +1,9 @@
 import { createStore } from "vuex";
-import { mapPokemonResult, mapPokemonsResult } from "../utils";
+import { mapPokemonsResult } from "../utils";
 import { State } from "../models/state.model";
 import RestClient from "../api/RestClient";
 import { PokemonsResult } from "../models/pokemons-result.model";
-import { PokemonResult } from "../models/pokemon-result.model";
+import { Pokemon } from "../models/pokemon.model";
 
 const client = new RestClient();
 
@@ -28,8 +28,8 @@ const store = createStore<State>({
 			state.pokemons = mapPokemonsResult(payload.results);
 			state.loaded = true;
 		},
-		setPokemon(state, payload: PokemonResult) {
-			state.pokemon = mapPokemonResult(payload);
+		setPokemon(state, payload: Pokemon) {
+			state.pokemon = payload;
 		},
 	},
 	actions: {

@@ -34,7 +34,9 @@ function next() {
 }
 
 onMounted(function () {
-    store.dispatch('loadItems');
+    if (!loaded.value) {
+        store.dispatch('loadItems');
+    }
 })
 </script>
 
